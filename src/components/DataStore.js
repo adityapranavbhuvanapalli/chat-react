@@ -1,4 +1,4 @@
-import React,{createContext,useReducer} from 'react'
+import React,{createContext,useReducer, useState} from 'react'
 import io from 'socket.io-client'
 
 export const Context = createContext();
@@ -44,15 +44,23 @@ function reducer(state, action) {
 }
 
 let socket;
+// const user = "Pranav" + Math.random(100);
 
 function sendChatAction(value){
     socket.emit('chat message', value);
 }
 
+// function changeUname(value){
+//     changeUsername(value);
+// }
+
+
 export default function DataStore(props){
     
     const [allChats, dispatch] = useReducer( reducer, initState);
-
+    
+    const [user,changeUsername] = useState("");
+    
     if(!socket){
         socket=io(':3001');
         socket.on('chat message', function(msg){
@@ -62,11 +70,13 @@ export default function DataStore(props){
         });
     }
 
-    const user = 'Pranav'+Math.random(100).toFixed(2);
-
-    return (
-        <Context.Provider value={{allChats, sendChatAction, user}}>
+    return ( 
+        <Context.Provider value={{allChats, sendChatAction, user, changeUsername}}>
             {props.children}
         </Context.Provider>
     )
 }
+
+{/* <CTX.Provider value={{user,changeUsername}}>
+                {props.children}
+            </CTX.Provider> */}

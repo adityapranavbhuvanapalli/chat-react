@@ -2,7 +2,8 @@ import React, {useState, useContext} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import { Typography } from '@material-ui/core'
-import { List, ListItem, ListItemText } from '@material-ui/core'
+import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core'
+import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -12,7 +13,8 @@ import {Context} from './DataStore'
 const useStyles = makeStyles(theme => ({
     root: {
         padding: theme.spacing(3,2),
-        margin: "50px"
+        margin: "50px",
+        backgroundColor: "#f2f2f2"
     },
     flex: {
         display:'flex',
@@ -20,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
     topicsWindow:{
         width :"30%",
-        height :'100%',
+        height :'300px',
         borderRight: '1px solid grey',
         overflowY: 'scroll'
     },
@@ -28,7 +30,7 @@ const useStyles = makeStyles(theme => ({
         width:"70%"
     },
     chatWindow:{
-        height :'100%',
+        height :'300px',
         padding :'10px',
         overflowY:'scroll'
     },
@@ -47,12 +49,13 @@ export default function ChatApp() {
     const classes = useStyles();
     
     //Context
-    const {allChats, sendChatAction, user} = useContext(Context); 
+    const {allChats, sendChatAction, user, changeUsername} = useContext(Context); 
     const topics = Object.keys(allChats);
     
     //Local
     const [activeTopic, changeActiveTopic]=useState(topics[0]);
     const [textValue, changeTextValue]=useState("");
+    const [textLabel, changeTextLabel] = useState("Type something.")
 
     return(
         <div>
@@ -64,7 +67,11 @@ export default function ChatApp() {
                         <List>
                             {topics.map(topic =>(
                                 <ListItem key={topic} button onClick={e=>changeActiveTopic(e.target.innerText)}>
+                                    <ListItemIcon>
+                                        <Avatar src="https://img.icons8.com/flat_round/64/000000/add-user-group-man-man.png"/>
+                                    </ListItemIcon>
                                     <ListItemText primary={topic}></ListItemText>
+                                    {/* <ListItemText secondary="online" align="right"></ListItemText> */}
                                 </ListItem>
                             ))}
                         </List>
@@ -86,20 +93,17 @@ export default function ChatApp() {
                             <TextField 
                                 id="textfield"
                                 className={classes.chatBox} 
-                                label="Type something"
+                                label={textLabel}
                                 value={textValue}
                                 onChange={e => changeTextValue(e.target.value)}
-                                // onFocus={document.getElementById('textfield').label="Typing..."}
+                                onFocus={e => changeTextLabel("Typing...")}
+                                onBlur={e => changeTextLabel("Type Something")}
                             />
                             <Button 
                                 variant="contained" 
                                 className={classes.button} 
                                 color="primary" 
                                 component="span"
-                                // onClick={()=>{
-                                //     sendChatAction({from: user, msg: textValue, topic: activeTopic})
-                                //     changeTextValue("")    
-                                // }}
                                 onClick={()=>{
                                     if(textValue===""){
                                         alert('Enter something.')
