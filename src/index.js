@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import ChatUI from './reference/ChatUI'
+import ChatUI from './reference/ChatUIReference'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

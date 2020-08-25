@@ -36,6 +36,11 @@ export default function Login() {
                 className={classes.chatBox} 
                 label="User Name"
                 value={user}
+                onFocus={e => changeUsername("")}
+                onBlur={e => {
+                    if(e.target.value==="")
+                        changeUsername("Anonymous")
+                }}
                 onChange={e => changeUsername(e.target.value)}
             />
             <Button 

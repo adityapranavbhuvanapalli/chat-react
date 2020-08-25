@@ -1,13 +1,16 @@
 import React, {useState, useContext} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
-import { Typography } from '@material-ui/core'
+import { Typography, Grid } from '@material-ui/core'
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import Fab from '@material-ui/core/Fab';
+import SendIcon from '@material-ui/icons/Send';
 import {Context} from './DataStore'
+import { render } from '@testing-library/react'
 
 
 const useStyles = makeStyles(theme => ({
@@ -19,6 +22,11 @@ const useStyles = makeStyles(theme => ({
     flex: {
         display:'flex',
         alignItems: "center",
+    },
+    selfmsg: {
+        display:"flex",
+        alignItems:"center",
+        float:"right"
     },
     topicsWindow:{
         width :"30%",
@@ -55,7 +63,7 @@ export default function ChatApp() {
     //Local
     const [activeTopic, changeActiveTopic]=useState(topics[0]);
     const [textValue, changeTextValue]=useState("");
-    const [textLabel, changeTextLabel] = useState("Type something.")
+    const [textLabel, changeTextLabel] = useState("Type something")
 
     return(
         <div>
@@ -82,8 +90,9 @@ export default function ChatApp() {
                             {activeTopic}
                         </Typography>
                         <div className={classes.chatWindow}>
-                            {allChats[activeTopic].map((chat,index) =>(
-                                <div className={classes.flex} key={index}>
+                            {allChats[activeTopic].map((chat,index) => (
+                                <div className={classes.flex} key={index} padding="20">
+                                    <Avatar src="https://img.icons8.com/flat_round/64/000000/add-user-group-man-man.png"/>
                                     <Chip label={chat.from+": "+chat.msg} className={classes.chip}/>
                                 </div>
                             ))}
@@ -99,7 +108,7 @@ export default function ChatApp() {
                                 onFocus={e => changeTextLabel("Typing...")}
                                 onBlur={e => changeTextLabel("Type Something")}
                             />
-                            <Button 
+                            <Grid 
                                 variant="contained" 
                                 className={classes.button} 
                                 color="primary" 
@@ -111,11 +120,12 @@ export default function ChatApp() {
                                     else{
                                         sendChatAction({from: user, msg: textValue, topic: activeTopic})
                                         changeTextValue("")
+                                        
                                     }
                                 }}
                             >
-                                Send
-                            </Button>
+                                <Fab color="primary" aria-label="add"><SendIcon /></Fab>
+                            </Grid>
                         </div>
                     </div>
                 </div>

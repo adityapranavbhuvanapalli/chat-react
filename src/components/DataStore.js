@@ -44,7 +44,6 @@ function reducer(state, action) {
 }
 
 let socket;
-// const user = "Pranav" + Math.random(100);
 
 function sendChatAction(value){
     socket.emit('chat message', value);
@@ -59,7 +58,7 @@ export default function DataStore(props){
     
     const [allChats, dispatch] = useReducer( reducer, initState);
     
-    const [user,changeUsername] = useState("");
+    const [user,changeUsername] = useState("Anonymous");
     
     if(!socket){
         socket=io(':3001');
