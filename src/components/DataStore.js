@@ -59,6 +59,7 @@ export default function DataStore(props){
     const [allChats, dispatch] = useReducer( reducer, initState);
     
     const [user,changeUsername] = useState("Anonymous");
+
     
     if(!socket){
         socket=io(':3001');

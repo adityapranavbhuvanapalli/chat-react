@@ -10,7 +10,6 @@ import TextField from '@material-ui/core/TextField'
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 import {Context} from './DataStore'
-import { render } from '@testing-library/react'
 
 
 const useStyles = makeStyles(theme => ({
@@ -75,9 +74,9 @@ export default function ChatApp() {
                         <List>
                             {topics.map(topic =>(
                                 <ListItem key={topic} button onClick={e=>changeActiveTopic(e.target.innerText)}>
-                                    <ListItemIcon>
-                                        <Avatar src="https://img.icons8.com/flat_round/64/000000/add-user-group-man-man.png"/>
-                                    </ListItemIcon>
+                                    {/* <ListItemIcon> */}
+                                        <Avatar key={topic} onClick={e=>{e.preventDefault()}} src="https://img.icons8.com/flat_round/64/000000/add-user-group-man-man.png"/>
+                                    {/* </ListItemIcon> */}
                                     <ListItemText primary={topic}></ListItemText>
                                     {/* <ListItemText secondary="online" align="right"></ListItemText> */}
                                 </ListItem>
@@ -105,8 +104,8 @@ export default function ChatApp() {
                                 label={textLabel}
                                 value={textValue}
                                 onChange={e => changeTextValue(e.target.value)}
-                                onFocus={e => changeTextLabel("Typing...")}
-                                onBlur={e => changeTextLabel("Type Something")}
+                                onFocus={() => changeTextLabel("Typing...")}
+                                onBlur={() => changeTextLabel("Type Something")}
                             />
                             <Grid 
                                 variant="contained" 
